@@ -35,3 +35,19 @@ export async function verifyOtp(phone: string, otp: string) {
   });
   return response.json();
 }
+
+export async function fetchCart(phone: string) {
+  const response = await fetch(`${API_URL}/cart/${phone}`);
+  if (!response.ok) throw new Error("Failed to fetch cart");
+  return response.json();
+}
+
+export async function updateCart(phone: string, items: any[]) {
+  const response = await fetch(`${API_URL}/cart/update`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ phone, items }),
+  });
+  if (!response.ok) throw new Error("Failed to update cart");
+  return response.json();
+}

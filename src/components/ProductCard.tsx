@@ -1,6 +1,9 @@
 import type { Product } from "@/data/products";
+import { useCart } from "@/hooks/use-cart";
 
 export function ProductCard({ product }: { product: Product }) {
+  const { addToCart } = useCart();
+
   return (
     <div className="overflow-hidden rounded-2xl border bg-card shadow-sm transition hover:shadow-md">
       <div className="aspect-square overflow-hidden bg-muted">
@@ -17,7 +20,10 @@ export function ProductCard({ product }: { product: Product }) {
         <p className="text-lg font-bold">
           ₹{product.price} <span className="text-sm font-normal text-muted-foreground">/ {product.unit}</span>
         </p>
-        <button className="mt-3 w-full rounded-md border border-brand/30 bg-brand-soft py-2 text-sm font-semibold tracking-wider text-brand transition hover:bg-brand hover:text-brand-foreground">
+        <button 
+          onClick={() => addToCart(product.id)}
+          className="mt-3 w-full rounded-md border border-brand/30 bg-brand-soft py-2 text-sm font-semibold tracking-wider text-brand transition hover:bg-brand hover:text-brand-foreground"
+        >
           ADD
         </button>
       </div>

@@ -37,8 +37,19 @@ class VerifyRequest(BaseModel):
     phone: str
     otp: str
 
+class CartItem(BaseModel):
+    productId: str
+    quantity: int
+
+class UpdateCartRequest(BaseModel):
+    phone: str
+    items: List[CartItem]
+
 # In-memory storage (Phone -> {otp, username})
 otp_store = {}
+
+# User Carts (Phone -> List of items)
+cart_store = {}
 
 # Mock data moved from frontend
 CATEGORIES = ["All", "Store special", "By Product", "Cut Pieces", "Value Ads", "Whole Bird"]
@@ -116,6 +127,15 @@ async def verify_otp(req: VerifyRequest):
         }
     
     return {"message": "Invalid OTP", "status": "error"}
+
+@app.get("/cart/{phone}")
+async def get_cart(phone: str):
+    return cart_store.get(phone, [])
+
+@app.post("/cart/update")
+async def update_cart(req: UpdateCartRequest):
+    cart_store[req.phone] = [item.dict() for item in req.items]
+    return {"message": "Cart updated", "status": "success"}
 
 if __name__ == "__main__":
     import uvicorn

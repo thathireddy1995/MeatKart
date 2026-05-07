@@ -1,10 +1,12 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { ShoppingCart, LogOut, User } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useCart } from "@/hooks/use-cart";
 import logo from "@/assets/logo.png";
 
 export function SiteHeader() {
   const [user, setUser] = useState<{ name: string } | null>(null);
+  const { totalItems } = useCart();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,18 +41,23 @@ export function SiteHeader() {
           <Link to="/orders" className="text-foreground/80 hover:text-brand">
             Orders
           </Link>
-          <button aria-label="Cart" className="text-foreground/70 hover:text-brand">
+          <button aria-label="Cart" className="group relative text-foreground/70 hover:text-brand">
             <ShoppingCart className="h-5 w-5" />
+            {totalItems > 0 && (
+              <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-brand text-[10px] font-bold text-brand-foreground transition-transform group-hover:scale-110">
+                {totalItems}
+              </span>
+            )}
           </button>
           <span className="h-6 w-px bg-border" />
-          
+
           {user ? (
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2 text-brand">
                 <User className="h-4 w-4" />
                 <span>Hi, {user.name.split(" ")[0]}</span>
               </div>
-              <button 
+              <button
                 onClick={handleLogout}
                 className="flex items-center gap-1 text-destructive hover:opacity-80"
                 title="Logout"

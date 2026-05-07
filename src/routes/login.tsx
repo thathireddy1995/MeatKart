@@ -78,19 +78,19 @@ function Login() {
       <main className="flex flex-1 items-center justify-center px-6 py-16">
         <div className="w-full max-w-md rounded-2xl border bg-card p-8 shadow-sm">
           {step === "otp" && (
-            <button 
+            <button
               onClick={() => setStep("phone")}
               className="mb-4 flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
             >
               <ArrowLeft className="h-4 w-4" /> Change number
             </button>
           )}
-          
+
           <h1 className="mb-2 text-2xl font-bold">
             {step === "phone" ? "Welcome back" : "Verify OTP"}
           </h1>
           <p className="mb-6 text-sm text-muted-foreground">
-            {step === "phone" 
+            {step === "phone"
               ? "Login to track orders and reorder favourites."
               : `Enter the 6-digit code sent to +91 ${phone}`}
           </p>
@@ -147,7 +147,7 @@ function Login() {
               {step === "phone" ? "Send OTP" : "Verify & Login"}
             </button>
           </form>
-          
+
           {step === "otp" && (
             <p className="mt-6 text-center text-xs text-muted-foreground">
               Didn't receive the code? <button onClick={handleRequestOtp} className="font-semibold text-brand underline">Resend</button>
