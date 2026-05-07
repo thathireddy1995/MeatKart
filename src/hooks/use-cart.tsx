@@ -54,7 +54,21 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       fetchCart(phone)
         .then((data) => {
           if (Array.isArray(data)) {
-            setItems(data);
+            // Merge logic: prefer existing quantities if already in guest cart
+            setItems((currentItems) => {
+              const merged = [...data];
+              currentItems.forEach((guestItem) => {
+                const existingIdx = merged.findIndex(i => i.productId === guestItem.productId);
+                if (existingIdx > -1) {
+                  // If item exists in both, we could sum them or keep guest quantity. 
+                  // Let's sum them for a better experience.
+                  merged[existingIdx].quantity += guestItem.quantity;
+                } else {
+                  merged.push(guestItem);
+                }
+              });
+              return merged;
+            });
           }
         })
         .catch(console.error);
@@ -69,11 +83,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [items, phone]);
 
   const addToCart = (productId: string) => {
-    if (!phone) {
-      toast.error("Please login to add items to cart");
-      return;
-    }
-    
     setItems((prev) => {
       const existing = prev.find((i) => i.productId === productId);
       if (existing) {

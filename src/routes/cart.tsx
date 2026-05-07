@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { useCart } from "@/hooks/use-cart";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProducts } from "@/lib/api";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/cart")({
   component: CartPage,
@@ -25,6 +26,17 @@ function CartPage() {
   }).filter(item => item.product);
 
   const totalPrice = cartDetails.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+
+  const handleCheckout = () => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      toast.info("Please login to proceed with payment");
+      navigate({ to: "/login" });
+      return;
+    }
+    // Proceed to payment logic would go here
+    toast.success("Proceeding to payment...");
+  };
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -143,7 +155,10 @@ function CartPage() {
                   <span>Total</span>
                   <span>₹{totalPrice}</span>
                 </div>
-                <button className="w-full rounded-2xl bg-brand py-5 text-center text-sm font-black tracking-[0.2em] text-brand-foreground shadow-2xl shadow-brand/30 transition hover:opacity-95 active:scale-[0.98] uppercase">
+                <button 
+                  onClick={handleCheckout}
+                  className="w-full rounded-2xl bg-brand py-5 text-center text-sm font-black tracking-[0.2em] text-brand-foreground shadow-2xl shadow-brand/30 transition hover:opacity-95 active:scale-[0.98] uppercase"
+                >
                   Proceed to Payment
                 </button>
                 <div className="mt-6 flex flex-col gap-3">
