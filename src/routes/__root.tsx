@@ -1,6 +1,7 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CartProvider } from "@/hooks/use-cart";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import appCss from "../styles.css?url";
 
@@ -68,10 +69,12 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <CartProvider>
-        <Outlet />
-      </CartProvider>
-    </QueryClientProvider>
+    <GoogleOAuthProvider clientId="915891762298-p5sfvem78pa6d4a897db05lqh1miec4m.apps.googleusercontent.com">
+      <QueryClientProvider client={queryClient}>
+        <CartProvider>
+          <Outlet />
+        </CartProvider>
+      </QueryClientProvider>
+    </GoogleOAuthProvider>
   );
 }
