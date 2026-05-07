@@ -17,3 +17,21 @@ export async function fetchOrders() {
   if (!response.ok) throw new Error("Failed to fetch orders");
   return response.json();
 }
+
+export async function requestOtp(phone: string, username: string) {
+  const response = await fetch(`${API_URL}/auth/request-otp`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ phone, username }),
+  });
+  return response.json();
+}
+
+export async function verifyOtp(phone: string, otp: string) {
+  const response = await fetch(`${API_URL}/auth/verify-otp`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ phone, otp }),
+  });
+  return response.json();
+}

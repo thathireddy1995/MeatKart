@@ -29,6 +29,17 @@ class Order(BaseModel):
     total: float
     status: str
 
+class AuthRequest(BaseModel):
+    phone: str
+    username: str
+
+class VerifyRequest(BaseModel):
+    phone: str
+    otp: str
+
+# In-memory storage (Phone -> {otp, username})
+otp_store = {}
+
 # Mock data moved from frontend
 CATEGORIES = ["All", "Store special", "By Product", "Cut Pieces", "Value Ads", "Whole Bird"]
 
@@ -77,6 +88,34 @@ async def get_orders():
         { "id": "MK-1031", "date": "Apr 28, 2026", "items": "Whole bird with skin", "total": 230, "status": "Delivered" },
         { "id": "MK-1019", "date": "Apr 21, 2026", "items": "Drumstick, Mince", "total": 760, "status": "Cancelled" },
     ]
+
+@app.post("/auth/request-otp")
+async def request_otp(req: AuthRequest):
+    import random
+    otp = str(random.randint(100000, 999999))
+    otp_store[req.phone] = {"otp": otp, "username": req.username}
+    
+    # Simulation: Print OTP to console
+    print(f"\n[AUTH] OTP for {req.username} ({req.phone}) is: {otp}\n")
+    
+    return {"message": "OTP sent successfully", "status": "success"}
+
+@app.post("/auth/verify-otp")
+async def verify_otp(req: VerifyRequest):
+    data = otp_store.get(req.phone)
+    
+    if data and data["otp"] == req.otp:
+        username = data["username"]
+        # Clear OTP after successful use
+        del otp_store[req.phone]
+        return {
+            "message": "Login successful",
+            "status": "success",
+            "user": {"phone": req.phone, "name": username},
+            "token": "mock-jwt-token-for-meatkart"
+        }
+    
+    return {"message": "Invalid OTP", "status": "error"}
 
 if __name__ == "__main__":
     import uvicorn

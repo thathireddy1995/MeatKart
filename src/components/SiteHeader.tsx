@@ -1,8 +1,26 @@
-import { Link } from "@tanstack/react-router";
-import { ShoppingCart } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { ShoppingCart, LogOut, User } from "lucide-react";
+import { useEffect, useState } from "react";
 import logo from "@/assets/logo.png";
 
 export function SiteHeader() {
+  const [user, setUser] = useState<{ name: string } | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    setUser(null);
+    navigate({ to: "/login" });
+  };
+
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
@@ -25,12 +43,29 @@ export function SiteHeader() {
             <ShoppingCart className="h-5 w-5" />
           </button>
           <span className="h-6 w-px bg-border" />
-          <Link
-            to="/login"
-            className="rounded-md bg-brand px-6 py-2 text-brand-foreground shadow-sm transition hover:opacity-90"
-          >
-            Login
-          </Link>
+          
+          {user ? (
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 text-brand">
+                <User className="h-4 w-4" />
+                <span>Hi, {user.name.split(" ")[0]}</span>
+              </div>
+              <button 
+                onClick={handleLogout}
+                className="flex items-center gap-1 text-destructive hover:opacity-80"
+                title="Logout"
+              >
+                <LogOut className="h-5 w-5" />
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              className="rounded-md bg-brand px-6 py-2 text-brand-foreground shadow-sm transition hover:opacity-90"
+            >
+              Login
+            </Link>
+          )}
         </nav>
       </div>
     </header>
