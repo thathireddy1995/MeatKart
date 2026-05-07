@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Search, MapPin, ChevronRight } from "lucide-react";
+import { Search, MapPin, ChevronRight, Loader2 } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ProductCard } from "@/components/ProductCard";
-import { categories, products } from "@/data/products";
+import { fetchProducts, fetchCategories } from "@/lib/api";
+import { useQuery } from "@tanstack/react-query";
 import heroImg from "@/assets/hero-farm.jpg";
 
 export const Route = createFileRoute("/")({
@@ -21,10 +22,18 @@ function Index() {
   const [active, setActive] = useState("All");
   const [query, setQuery] = useState("");
 
-  const filtered = products.filter(
-    (p) =>
-      (active === "All" || p.category === active) &&
-      p.name.toLowerCase().includes(query.toLowerCase())
+  const { data: products = [], isLoading: loadingProducts } = useQuery({
+    queryKey: ["products", active],
+    queryFn: () => fetchProducts(active),
+  });
+
+  const { data: categories = ["All"], isLoading: loadingCategories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+  });
+
+  const filtered = products.filter((p: any) =>
+    p.name.toLowerCase().includes(query.toLowerCase())
   );
 
   return (
@@ -70,29 +79,42 @@ function Index() {
 
       <section className="mx-auto w-full max-w-7xl px-6 py-8">
         <div className="flex flex-wrap gap-3">
-          {categories.map((c) => (
-            <button
-              key={c}
-              onClick={() => setActive(c)}
-              className={`rounded-full border px-5 py-2 text-sm font-medium transition ${
-                active === c
-                  ? "border-brand bg-brand text-brand-foreground"
-                  : "border-border bg-background text-foreground/70 hover:border-brand/40"
-              }`}
-            >
-              {c}
-            </button>
-          ))}
+          {loadingCategories ? (
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin" /> Loading categories...
+            </div>
+          ) : (
+            categories.map((c: string) => (
+              <button
+                key={c}
+                onClick={() => setActive(c)}
+                className={`rounded-full border px-5 py-2 text-sm font-medium transition ${
+                  active === c
+                    ? "border-brand bg-brand text-brand-foreground"
+                    : "border-border bg-background text-foreground/70 hover:border-brand/40"
+                }`}
+              >
+                {c}
+              </button>
+            ))
+          )}
         </div>
       </section>
 
       <main className="mx-auto w-full max-w-7xl flex-1 px-6 pb-16">
         <h1 className="mb-6 text-2xl font-bold">Featured Products</h1>
-        <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
-          {filtered.map((p) => (
-            <ProductCard key={p.id} product={p} />
-          ))}
-        </div>
+        {loadingProducts ? (
+          <div className="flex h-64 flex-col items-center justify-center gap-4 text-muted-foreground">
+            <Loader2 className="h-8 w-8 animate-spin text-brand" />
+            <p>Fetching fresh meat...</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
+            {filtered.map((p: any) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        )}
       </main>
 
       <SiteFooter />
