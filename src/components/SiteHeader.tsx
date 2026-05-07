@@ -41,7 +41,11 @@ export function SiteHeader() {
           <Link to="/orders" className="text-foreground/80 hover:text-brand">
             Orders
           </Link>
-          <button aria-label="Cart" className="group relative text-foreground/70 hover:text-brand">
+          <button 
+            onClick={() => navigate({ to: "/cart" })}
+            aria-label="Cart" 
+            className="group relative text-foreground/70 hover:text-brand"
+          >
             <ShoppingCart className="h-5 w-5" />
             {totalItems > 0 && (
               <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-brand text-[10px] font-bold text-brand-foreground transition-transform group-hover:scale-110">
