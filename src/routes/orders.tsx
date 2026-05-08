@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { Package, Loader2 } from "lucide-react";
+import { Package, Loader2, ShoppingBag } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchOrders } from "@/lib/api";
+import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/orders")({
   component: Orders,
@@ -27,9 +28,20 @@ function Orders() {
             <p>Loading your orders...</p>
           </div>
         ) : orders.length === 0 ? (
-          <div className="flex h-64 flex-col items-center justify-center gap-4 text-muted-foreground">
-            <Package className="h-12 w-12 opacity-20" />
-            <p>No orders found yet.</p>
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="mb-6 rounded-full bg-muted p-8">
+              <ShoppingBag className="h-12 w-12 text-muted-foreground opacity-40" />
+            </div>
+            <h2 className="text-2xl font-bold text-foreground">No orders found yet</h2>
+            <p className="mt-2 text-muted-foreground font-medium max-w-xs">
+              Looks like you haven't placed any orders yet.
+            </p>
+            <Link
+              to="/"
+              className="mt-10 rounded-xl bg-brand px-12 py-4 text-sm font-black tracking-widest text-brand-foreground shadow-xl shadow-brand/20 transition hover:opacity-90 active:scale-95 uppercase"
+            >
+              Continue Shopping
+            </Link>
           </div>
         ) : (
           <div className="space-y-4">

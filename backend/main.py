@@ -51,6 +51,15 @@ otp_store = {}
 # User Carts (Phone -> List of items)
 cart_store = {}
 
+# User Orders (Phone -> List of orders)
+order_store = {
+    "7330702832": [
+        { "id": "MK-1042", "date": "May 02, 2026", "items": "Biriyani cut, Eggs", "total": 587, "status": "Delivered" },
+        { "id": "MK-1031", "date": "Apr 28, 2026", "items": "Whole bird with skin", "total": 230, "status": "Delivered" },
+        { "id": "MK-1019", "date": "Apr 21, 2026", "items": "Drumstick, Mince", "total": 760, "status": "Cancelled" },
+    ]
+}
+
 # Mock data moved from frontend
 CATEGORIES = ["All", "Store special", "By Product", "Cut Pieces", "Value Ads", "Whole Bird"]
 
@@ -92,13 +101,9 @@ async def get_products(category: str = "All"):
         return PRODUCTS
     return [p for p in PRODUCTS if p["category"] == category]
 
-@app.get("/orders")
-async def get_orders():
-    return [
-        { "id": "MK-1042", "date": "May 02, 2026", "items": "Biriyani cut, Eggs", "total": 587, "status": "Delivered" },
-        { "id": "MK-1031", "date": "Apr 28, 2026", "items": "Whole bird with skin", "total": 230, "status": "Delivered" },
-        { "id": "MK-1019", "date": "Apr 21, 2026", "items": "Drumstick, Mince", "total": 760, "status": "Cancelled" },
-    ]
+@app.get("/orders/{phone}")
+async def get_orders(phone: str):
+    return order_store.get(phone, [])
 
 @app.post("/auth/request-otp")
 async def request_otp(req: AuthRequest):
