@@ -50,8 +50,8 @@ export function SiteFooter() {
         <div>
           <h4 className="mb-4 font-semibold">Contact Us</h4>
           <ul className="space-y-3 text-sm text-footer-foreground/70">
-            <li className="flex gap-2"><MapPin className="h-4 w-4 shrink-0 text-brand" /> MeatKart HQ, Main Road, Chittoor, Andhra Pradesh 517001</li>
-            <li className="flex gap-2"><Phone className="h-4 w-4 shrink-0 text-brand" /> +91 98765 43210</li>
+            <li className="flex gap-2"><MapPin className="h-4 w-4 shrink-0 text-brand" /> MeatKart HQ, DBR Bylu, Mangunta, Chittoor, Andhra Pradesh 517167</li>
+            <li className="flex gap-2"><Phone className="h-4 w-4 shrink-0 text-brand" /> +91 7330702832</li>
             <li className="flex gap-2"><Mail className="h-4 w-4 shrink-0 text-brand" /> orders@meatkart.in</li>
           </ul>
         </div>
