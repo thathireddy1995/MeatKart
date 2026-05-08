@@ -32,7 +32,7 @@ function LoginPage() {
 
         // Map Google profile to our app user format
         const user = {
-          phone: "7330702832", // We still use this to keep your persistent cart linked
+          phone: "7995060427", // We still use this to keep your persistent cart linked
           name: profile.name,
           email: profile.email,
           avatar: profile.picture,
