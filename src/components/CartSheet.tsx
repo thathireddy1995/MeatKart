@@ -3,6 +3,8 @@ import { X, ShoppingBag, Trash2, Plus, Minus } from "lucide-react";
 import { useCart } from "@/hooks/use-cart";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProducts } from "@/lib/api";
+import { useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 
 export function CartSheet({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const { items, addToCart, decreaseQuantity, totalItems } = useCart();
@@ -14,6 +16,20 @@ export function CartSheet({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
     // Only fetch when the cart is open to save resources
     enabled: isOpen,
   });
+
+  const navigate = useNavigate();
+
+  const handleCheckout = () => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      toast.info("Please login to proceed with payment");
+      navigate({ to: "/login", search: { redirect: "/cart" } as any });
+      onClose();
+      return;
+    }
+    navigate({ to: "/cart" });
+    onClose();
+  };
 
   const cartDetails = items.map(item => {
     const product = allProducts.find((p: any) => String(p.id) === String(item.productId));
@@ -112,7 +128,10 @@ export function CartSheet({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                   <p>Grand Total</p>
                   <p className="text-xl text-brand">₹{totalPrice}</p>
                 </div>
-                <button className="w-full rounded-xl bg-brand py-4 text-center text-sm font-bold tracking-widest text-brand-foreground shadow-lg shadow-brand/20 transition hover:opacity-95 active:scale-[0.98]">
+                <button 
+                  onClick={handleCheckout}
+                  className="w-full rounded-xl bg-brand py-4 text-center text-sm font-bold tracking-widest text-brand-foreground shadow-lg shadow-brand/20 transition hover:opacity-95 active:scale-[0.98]"
+                >
                   PROCEED TO CHECKOUT
                 </button>
                 <p className="mt-4 text-center text-xs text-muted-foreground">

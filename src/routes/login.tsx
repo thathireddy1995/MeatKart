@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link, useSearch } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChevronLeft, CheckCircle2 } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -7,11 +7,17 @@ import { toast } from "sonner";
 import { useGoogleLogin } from "@react-oauth/google";
 
 export const Route = createFileRoute("/login")({
+  validateSearch: (search: Record<string, unknown>) => {
+    return {
+      redirect: (search.redirect as string) || "/",
+    };
+  },
   component: LoginPage,
 });
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { redirect } = useSearch({ from: "/login" });
   const [isLoading, setIsLoading] = useState(false);
 
   const login = useGoogleLogin({
@@ -44,7 +50,7 @@ function LoginPage() {
         
         toast.success(`Welcome, ${profile.given_name}!`);
         setIsLoading(false);
-        navigate({ to: "/" });
+        navigate({ to: redirect as any });
       } catch (error) {
         console.error("Failed to fetch Google profile:", error);
         toast.error("Failed to retrieve profile information.");

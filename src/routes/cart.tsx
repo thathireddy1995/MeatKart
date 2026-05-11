@@ -31,7 +31,7 @@ function CartPage() {
     const user = localStorage.getItem("user");
     if (!user) {
       toast.info("Please login to proceed with payment");
-      navigate({ to: "/login" });
+      navigate({ to: "/login", search: { redirect: "/cart" } as any });
       return;
     }
     // Proceed to payment logic would go here
