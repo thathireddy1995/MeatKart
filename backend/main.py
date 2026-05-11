@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 
-app = FastAPI(title="MeatKart API")
+app = FastAPI(title="KiloKart API")
 
 # Enable CORS for the frontend
 app.add_middleware(
@@ -54,9 +54,9 @@ cart_store = {}
 # User Orders (Phone -> List of orders)
 order_store = {
     "7995060427": [
-        { "id": "MK-1042", "date": "May 02, 2026", "items": "Biriyani cut, Eggs", "total": 587, "status": "Delivered" },
-        { "id": "MK-1031", "date": "Apr 28, 2026", "items": "Whole bird with skin", "total": 230, "status": "Delivered" },
-        { "id": "MK-1019", "date": "Apr 21, 2026", "items": "Drumstick, Mince", "total": 760, "status": "Cancelled" },
+        { "id": "KK-1042", "date": "May 02, 2026", "items": "Biriyani cut, Eggs", "total": 587, "status": "Delivered" },
+        { "id": "KK-1031", "date": "Apr 28, 2026", "items": "Whole bird with skin", "total": 230, "status": "Delivered" },
+        { "id": "KK-1019", "date": "Apr 21, 2026", "items": "Drumstick, Mince", "total": 760, "status": "Cancelled" },
     ]
 }
 
@@ -89,7 +89,7 @@ PRODUCTS = [
 
 @app.get("/")
 async def root():
-    return {"message": "MeatKart API is running"}
+    return {"message": "KiloKart API is running"}
 
 @app.get("/categories")
 async def get_categories():
@@ -128,7 +128,7 @@ async def verify_otp(req: VerifyRequest):
             "message": "Login successful",
             "status": "success",
             "user": {"phone": req.phone, "name": username},
-            "token": "mock-jwt-token-for-meatkart"
+            "token": "mock-jwt-token-for-kilokart"
         }
     
     return {"message": "Invalid OTP", "status": "error"}

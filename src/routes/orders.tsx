@@ -8,7 +8,7 @@ import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/orders")({
   component: Orders,
-  head: () => ({ meta: [{ title: "My Orders — MeatKart" }] }),
+  head: () => ({ meta: [{ title: "My Orders — KiloKart" }] }),
 });
 
 function Orders() {

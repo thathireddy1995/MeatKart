@@ -12,8 +12,8 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "MeatKart — Fresh Farm-to-Fork Chicken Delivered" },
-      { name: "description", content: "Order fresh chicken cuts, whole birds, eggs and more from MeatKart. Premium quality, delivered within minutes." },
+      { title: "KiloKart — Fresh Farm-to-Fork Chicken Delivered" },
+      { name: "description", content: "Order fresh chicken cuts, whole birds, eggs and more from KiloKart. Premium quality, delivered within minutes." },
     ],
   }),
 });

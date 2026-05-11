@@ -28,10 +28,10 @@ export function SiteHeader() {
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
         <Link to="/" className="flex items-center gap-2">
           <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand">
-            <img src={logo} alt="MeatKart logo" width={32} height={32} className="h-8 w-8" />
+            <img src={logo} alt="KiloKart logo" width={32} height={32} className="h-8 w-8" />
           </div>
-          <span className="text-2xl font-bold tracking-tight">
-            Meat<span className="text-brand">Kart</span>
+          <span className="text-2xl font-extrabold tracking-tight">
+            <span className="text-brand">Kilo</span>Kart
           </span>
         </Link>
         <nav className="flex items-center gap-7 text-sm font-medium">
