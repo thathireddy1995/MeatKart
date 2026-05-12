@@ -164,7 +164,12 @@ function CartPage() {
                 
                 <button 
                   onClick={() => {
-                    const message = `Hello KiloKart! 🥩\nI'd like to place an order:\n\n${cartDetails.map(item => `• ${item.product.name} (${item.quantity} ${item.product.unit})`).join('\n')}\n\n*Total Amount: ₹${totalPrice}*\n\nPlease confirm my order.`;
+                    const userData = localStorage.getItem("user");
+                    const user = userData ? JSON.parse(userData) : null;
+                    const userName = user?.name || "Customer";
+                    const location = "Tirupathi (Mangalam)"; // Current active location
+
+                    const message = `Hello KiloKart! 🥩\n\n*Order Details:*\nName: ${userName}\nLocation: ${location}\n\n*Items:*\n${cartDetails.map(item => `• ${item.product.name} (${item.quantity} ${item.product.unit})`).join('\n')}\n\n*Total Amount: ₹${totalPrice}*\n\nPlease confirm my order.`;
                     window.open(`https://wa.me/917995060427?text=${encodeURIComponent(message)}`, '_blank');
                   }}
                   className="mt-4 w-full flex items-center justify-center gap-2 rounded-2xl border-2 border-[#25D366] bg-transparent py-4 text-sm font-black tracking-widest text-[#25D366] transition hover:bg-[#25D366] hover:text-white active:scale-[0.98] uppercase"
