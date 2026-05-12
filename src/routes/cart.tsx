@@ -2,9 +2,9 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ChevronLeft, MapPin, ChevronRight, ShoppingCart, ShoppingBag, Plus, Minus, Trash2 } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { useCart } from "@/hooks/use-cart";
-import { useQuery } from "@tanstack/react-query";
-import { fetchProducts } from "@/lib/api";
+import { useLocation } from "@/hooks/use-location";
+import { LocationModal } from "@/components/LocationModal";
+import { useState } from "react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/cart")({
@@ -13,7 +13,9 @@ export const Route = createFileRoute("/cart")({
 
 function CartPage() {
   const navigate = useNavigate();
-  const { items, addToCart, decreaseQuantity, removeFromCart, totalItems } = useCart();
+  const { items, addToCart, decreaseQuantity, removeFromCart } = useCart();
+  const { locationName, pincode, isValid: isLocationValid } = useLocation();
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   
   const { data: allProducts = [], isLoading } = useQuery({
     queryKey: ["products", "All"],
@@ -28,6 +30,12 @@ function CartPage() {
   const totalPrice = cartDetails.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
 
   const handleCheckout = () => {
+    if (!isLocationValid) {
+      toast.warning("Please set your delivery location first");
+      setIsLocationModalOpen(true);
+      return;
+    }
+
     const user = localStorage.getItem("user");
     if (!user) {
       toast.info("Please login to proceed with payment");
@@ -48,9 +56,14 @@ function CartPage() {
           <div className="flex items-center gap-2 text-sm">
             <MapPin className="h-4 w-4 text-brand" />
             <span className="font-medium text-foreground/60">Delivering from:</span>
-            <span className="font-bold text-foreground/80">Tirupathi (Mangalam)</span>
+            <span className="font-bold text-foreground/80">
+              {locationName} {pincode ? `(${pincode})` : "Not Set"}
+            </span>
           </div>
-          <button className="flex items-center gap-1 rounded-full bg-white px-4 py-1 text-sm font-bold text-brand shadow-sm border border-brand/10">
+          <button 
+            onClick={() => setIsLocationModalOpen(true)}
+            className="flex items-center gap-1 rounded-full bg-white px-4 py-1 text-sm font-bold text-brand shadow-sm border border-brand/10 hover:bg-brand/5 transition-colors"
+          >
             Change <ChevronRight className="h-4 w-4" />
           </button>
         </div>
@@ -164,12 +177,18 @@ function CartPage() {
                 
                 <button 
                   onClick={() => {
+                    if (!isLocationValid) {
+                      toast.warning("Please set your delivery location first");
+                      setIsLocationModalOpen(true);
+                      return;
+                    }
+
                     const userData = localStorage.getItem("user");
                     const user = userData ? JSON.parse(userData) : null;
                     const userName = user?.name || "Customer";
-                    const location = "Tirupathi (Mangalam)"; // Current active location
+                    const fullDeliveryAddress = address || `${locationName} (${pincode})`;
 
-                    const message = `Hello KiloKart! 🥩\n\n*Order Details:*\nName: ${userName}\nLocation: ${location}\n\n*Items:*\n${cartDetails.map(item => `• ${item.product.name} (${item.quantity} ${item.product.unit})`).join('\n')}\n\n*Total Amount: ₹${totalPrice}*\n\nPlease confirm my order.`;
+                    const message = `Hello KiloKart! 🥩\n\n*Order Details:*\nName: ${userName}\nLocation: ${fullDeliveryAddress}\n\n*Items:*\n${cartDetails.map(item => `• ${item.product.name} (${item.quantity} ${item.product.unit})`).join('\n')}\n\n*Total Amount: ₹${totalPrice}*\n\nPlease confirm my order.`;
                     window.open(`https://wa.me/917995060427?text=${encodeURIComponent(message)}`, '_blank');
                   }}
                   className="mt-4 w-full flex items-center justify-center gap-2 rounded-2xl border-2 border-[#25D366] bg-transparent py-4 text-sm font-black tracking-widest text-[#25D366] transition hover:bg-[#25D366] hover:text-white active:scale-[0.98] uppercase"
@@ -189,6 +208,11 @@ function CartPage() {
           </div>
         )}
       </main>
+
+      <LocationModal 
+        isOpen={isLocationModalOpen} 
+        onClose={() => setIsLocationModalOpen(false)} 
+      />
 
       <SiteFooter />
     </div>

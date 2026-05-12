@@ -3,6 +3,9 @@ import { useState } from "react";
 import { Search, MapPin, ChevronRight, Loader2 } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { LocationModal } from "@/components/LocationModal";
+import { useLocation } from "@/hooks/use-location";
+import { useEffect } from "react";
 import { ProductCard } from "@/components/ProductCard";
 import { fetchProducts, fetchCategories } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
@@ -21,6 +24,15 @@ export const Route = createFileRoute("/")({
 function Index() {
   const [active, setActive] = useState("All");
   const [query, setQuery] = useState("");
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+  const { locationName, pincode, isValid } = useLocation();
+
+  useEffect(() => {
+    if (!isValid) {
+      const timer = setTimeout(() => setIsLocationModalOpen(true), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isValid]);
 
   const { data: products = [], isLoading: loadingProducts } = useQuery({
     queryKey: ["products", active],
@@ -64,18 +76,28 @@ function Index() {
         </div>
       </section>
 
-      <section className="bg-brand-soft">
+      <section className="bg-brand-soft/50">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-2 text-sm">
             <MapPin className="h-4 w-4 text-brand" />
-            <span className="font-semibold">Delivering from:</span>
-            <span className="text-foreground/80">Tirupathi (Mangalam)</span>
+            <span className="font-semibold text-foreground/60">Delivering from:</span>
+            <span className="font-bold text-foreground/80">
+              {locationName} {pincode ? `(${pincode})` : ""}
+            </span>
           </div>
-          <button className="flex items-center gap-1 rounded-full bg-background px-4 py-1.5 text-sm font-medium text-brand shadow-sm">
+          <button 
+            onClick={() => setIsLocationModalOpen(true)}
+            className="flex items-center gap-1 rounded-full bg-background px-4 py-1.5 text-sm font-bold text-brand shadow-sm border border-brand/10 transition hover:bg-brand/5"
+          >
             Change <ChevronRight className="h-4 w-4" />
           </button>
         </div>
       </section>
+
+      <LocationModal 
+        isOpen={isLocationModalOpen} 
+        onClose={() => setIsLocationModalOpen(false)} 
+      />
 
       <section className="mx-auto w-full max-w-7xl px-6 py-8">
         <div className="flex flex-wrap gap-3">
