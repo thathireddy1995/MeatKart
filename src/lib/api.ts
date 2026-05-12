@@ -1,4 +1,6 @@
-const API_URL = "http://localhost:8081";
+// const API_URL = "http://localhost:8081";
+const API_URL =
+  "https://tlntu1z1u5.execute-api.ap-south-1.amazonaws.com/Prod";
 
 export async function fetchProducts(category: string = "All") {
   const response = await fetch(`${API_URL}/products?category=${category}`);
