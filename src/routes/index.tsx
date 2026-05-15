@@ -85,7 +85,7 @@ function Index() {
               {locationName} {pincode ? `(${pincode})` : ""}
             </span>
           </div>
-          <button 
+          <button
             onClick={() => setIsLocationModalOpen(true)}
             className="flex items-center gap-1 rounded-full bg-background px-4 py-1.5 text-sm font-bold text-brand shadow-sm border border-brand/10 transition hover:bg-brand/5"
           >
@@ -94,9 +94,9 @@ function Index() {
         </div>
       </section>
 
-      <LocationModal 
-        isOpen={isLocationModalOpen} 
-        onClose={() => setIsLocationModalOpen(false)} 
+      <LocationModal
+        isOpen={isLocationModalOpen}
+        onClose={() => setIsLocationModalOpen(false)}
       />
 
       <section className="mx-auto w-full max-w-7xl px-6 py-8">
@@ -110,11 +110,10 @@ function Index() {
               <button
                 key={c}
                 onClick={() => setActive(c)}
-                className={`rounded-full border px-5 py-2 text-sm font-medium transition ${
-                  active === c
-                    ? "border-brand bg-brand text-brand-foreground"
-                    : "border-border bg-background text-foreground/70 hover:border-brand/40"
-                }`}
+                className={`rounded-full border px-5 py-2 text-sm font-bold transition font-heading ${active === c
+                  ? "border-brand bg-brand text-brand-foreground shadow-md"
+                  : "border-border bg-card text-foreground/70 hover:border-brand/40"
+                  }`}
               >
                 {c}
               </button>

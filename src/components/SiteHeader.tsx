@@ -24,7 +24,7 @@ export function SiteHeader() {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur">
+    <header className="sticky top-0 z-40 w-full border-b bg-card/95 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
         <Link to="/" className="flex items-center gap-2">
           <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand">
@@ -41,9 +41,9 @@ export function SiteHeader() {
           <Link to="/orders" className="text-foreground/80 hover:text-brand">
             Orders
           </Link>
-          <button 
+          <button
             onClick={() => navigate({ to: "/cart" })}
-            aria-label="Cart" 
+            aria-label="Cart"
             className="group relative text-foreground/70 hover:text-brand"
           >
             <ShoppingCart className="h-5 w-5" />

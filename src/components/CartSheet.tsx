@@ -8,7 +8,7 @@ import { toast } from "sonner";
 
 export function CartSheet({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const { items, addToCart, decreaseQuantity, totalItems } = useCart();
-  
+
   // We need product details to show names/images
   const { data: allProducts = [], isLoading: isLoadingProducts } = useQuery({
     queryKey: ["products", "All"],
@@ -46,7 +46,7 @@ export function CartSheet({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
   return (
     <div className="fixed inset-0 z-50 overflow-hidden">
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" onClick={onClose} />
-      
+
       <div className="absolute inset-y-0 right-0 flex max-w-full pl-10">
         <div className="w-screen max-w-md transform bg-background shadow-2xl transition duration-500 ease-in-out sm:duration-700">
           <div className="flex h-full flex-col">
@@ -77,9 +77,9 @@ export function CartSheet({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                   </div>
                   <h3 className="text-lg font-semibold">Your cart is empty</h3>
                   <p className="mt-1 text-sm">Looks like you haven't added any fresh cuts yet.</p>
-                  <button 
+                  <button
                     onClick={onClose}
-                    className="mt-6 rounded-full bg-brand px-8 py-2 text-sm font-bold text-brand-foreground shadow-sm hover:opacity-90"
+                    className="mt-6 rounded-full bg-brand px-8 py-2 text-sm font-bold text-brand-foreground shadow-sm transition hover:bg-primary"
                   >
                     Start Shopping
                   </button>
@@ -98,16 +98,16 @@ export function CartSheet({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                         </div>
                         <div className="flex items-center justify-between">
                           <div className="flex items-center rounded-lg border bg-muted/30 p-1">
-                            <button 
-                                onClick={() => decreaseQuantity(item.productId)}
-                                className="p-1 hover:text-brand transition-colors"
+                            <button
+                              onClick={() => decreaseQuantity(item.productId)}
+                              className="p-1 hover:text-brand transition-colors"
                             >
                               <Minus className="h-3 w-3" />
                             </button>
                             <span className="w-8 text-center text-xs font-bold">{item.quantity}</span>
-                            <button 
-                                onClick={() => addToCart(item.productId)}
-                                className="p-1 hover:text-brand transition-colors"
+                            <button
+                              onClick={() => addToCart(item.productId)}
+                              className="p-1 hover:text-brand transition-colors"
                             >
                               <Plus className="h-3 w-3" />
                             </button>
@@ -128,9 +128,9 @@ export function CartSheet({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                   <p>Grand Total</p>
                   <p className="text-xl text-brand">₹{totalPrice}</p>
                 </div>
-                <button 
+                <button
                   onClick={handleCheckout}
-                  className="w-full rounded-xl bg-brand py-4 text-center text-sm font-bold tracking-widest text-brand-foreground shadow-lg shadow-brand/20 transition hover:opacity-95 active:scale-[0.98]"
+                  className="w-full rounded-xl bg-brand py-4 text-center text-sm font-bold tracking-widest text-brand-foreground shadow-lg shadow-brand/20 transition hover:bg-primary active:scale-[0.98]"
                 >
                   PROCEED TO CHECKOUT
                 </button>

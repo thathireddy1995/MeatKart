@@ -5,7 +5,7 @@ export function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart();
 
   return (
-    <div className="overflow-hidden rounded-2xl border bg-card shadow-sm transition hover:shadow-md">
+    <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition hover:shadow-md">
       <div className="aspect-square overflow-hidden bg-muted">
         <img
           src={product.image}
@@ -15,14 +15,14 @@ export function ProductCard({ product }: { product: Product }) {
         />
       </div>
       <div className="p-4">
-        <h3 className="text-sm font-medium text-foreground">{product.name}</h3>
+        <h3 className="text-sm font-bold text-foreground font-heading">{product.name}</h3>
         <div className="my-3 h-px bg-border" />
         <p className="text-lg font-bold">
           ₹{product.price} <span className="text-sm font-normal text-muted-foreground">/ {product.unit}</span>
         </p>
         <button 
           onClick={() => addToCart(product.id)}
-          className="mt-3 w-full rounded-md border border-brand/30 bg-brand-soft py-2 text-sm font-semibold tracking-wider text-brand transition hover:bg-brand hover:text-brand-foreground"
+          className="mt-3 w-full rounded-md bg-brand py-2 text-sm font-bold tracking-wider text-brand-foreground transition hover:bg-primary"
         >
           ADD
         </button>

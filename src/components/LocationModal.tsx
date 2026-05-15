@@ -109,7 +109,7 @@ export function LocationModal({ isOpen, onClose }: LocationModalProps) {
       );
       const data = await res.json();
       setSelectedAddress(data.display_name);
-      
+
       const pin = data.address.postcode;
       if (pin) setSelectedPin(pin);
     } catch (error) {
@@ -134,12 +134,12 @@ export function LocationModal({ isOpen, onClose }: LocationModalProps) {
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4">
       <div className="h-full w-full max-w-2xl sm:h-[90vh] overflow-hidden sm:rounded-[2.5rem] bg-white shadow-2xl flex flex-col animate-in slide-in-from-bottom duration-500">
-        
+
         {/* Interactive Map Section */}
         <div className="relative h-[50%] sm:h-[55%] bg-slate-100">
-          <MapContainer 
-            center={mapCenter} 
-            zoom={15} 
+          <MapContainer
+            center={mapCenter}
+            zoom={15}
             style={{ height: "100%", width: "100%" }}
             zoomControl={false}
           >
@@ -154,12 +154,12 @@ export function LocationModal({ isOpen, onClose }: LocationModalProps) {
           {/* Central Overlay Pin */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full z-[1000] pointer-events-none">
             <div className="relative flex flex-col items-center">
-               <div className="h-14 w-14 rounded-full bg-brand p-1.5 shadow-2xl border-4 border-white animate-bounce">
-                  <div className="flex h-full w-full items-center justify-center rounded-full bg-brand">
-                     <MapPin className="h-6 w-6 text-white fill-white/20" />
-                  </div>
-               </div>
-               <div className="h-2 w-8 rounded-full bg-black/20 blur-[2px] mt-1 scale-x-110" />
+              <div className="h-14 w-14 rounded-full bg-brand p-1.5 shadow-2xl border-4 border-white animate-bounce">
+                <div className="flex h-full w-full items-center justify-center rounded-full bg-brand">
+                  <MapPin className="h-6 w-6 text-white fill-white/20" />
+                </div>
+              </div>
+              <div className="h-2 w-8 rounded-full bg-black/20 blur-[2px] mt-1 scale-x-110" />
             </div>
           </div>
 
@@ -168,7 +168,7 @@ export function LocationModal({ isOpen, onClose }: LocationModalProps) {
             <div className="relative">
               <div className="flex items-center gap-3 bg-white rounded-2xl shadow-2xl p-2 pl-5 border-2 border-transparent focus-within:border-brand/20 transition-all">
                 {isSearching ? <Loader2 className="h-5 w-5 animate-spin text-brand" /> : <Search className="h-5 w-5 text-slate-400" />}
-                <input 
+                <input
                   type="text"
                   value={searchQuery}
                   onFocus={() => setShowSuggestions(true)}
@@ -176,7 +176,7 @@ export function LocationModal({ isOpen, onClose }: LocationModalProps) {
                   placeholder="Type village, town or area name..."
                   className="flex-1 bg-transparent py-3 text-sm font-bold outline-none placeholder:text-slate-400"
                 />
-                <button 
+                <button
                   onClick={() => {
                     setMapCenter([13.6288, 79.4192]);
                     handleMapMove(13.6288, 79.4192);
@@ -191,28 +191,28 @@ export function LocationModal({ isOpen, onClose }: LocationModalProps) {
               {/* Suggestions List */}
               {showSuggestions && suggestions.length > 0 && (
                 <div className="absolute mt-3 w-full rounded-2xl bg-white p-2 shadow-2xl border border-slate-100 max-h-[300px] overflow-auto animate-in fade-in slide-in-from-top-2">
-                   {suggestions.map((result, i) => (
-                     <button
-                       key={i}
-                       onClick={() => handleSelectSuggestion(result)}
-                       className="flex w-full items-center gap-4 rounded-xl p-4 text-left hover:bg-brand/5 transition-colors group"
-                     >
-                       <div className="rounded-full bg-slate-100 p-2 group-hover:bg-brand/10 group-hover:text-brand transition-colors">
-                          <MapPin className="h-4 w-4" />
-                       </div>
-                       <div className="flex-1 overflow-hidden">
-                          <p className="text-sm font-bold text-slate-800 truncate">{result.display_name.split(',')[0]}</p>
-                          <p className="text-xs font-medium text-slate-400 truncate">{result.display_name}</p>
-                       </div>
-                       <ChevronRight className="h-4 w-4 text-slate-300" />
-                     </button>
-                   ))}
+                  {suggestions.map((result, i) => (
+                    <button
+                      key={i}
+                      onClick={() => handleSelectSuggestion(result)}
+                      className="flex w-full items-center gap-4 rounded-xl p-4 text-left hover:bg-brand/5 transition-colors group"
+                    >
+                      <div className="rounded-full bg-slate-100 p-2 group-hover:bg-brand/10 group-hover:text-brand transition-colors">
+                        <MapPin className="h-4 w-4" />
+                      </div>
+                      <div className="flex-1 overflow-hidden">
+                        <p className="text-sm font-bold text-slate-800 truncate">{result.display_name.split(',')[0]}</p>
+                        <p className="text-xs font-medium text-slate-400 truncate">{result.display_name}</p>
+                      </div>
+                      <ChevronRight className="h-4 w-4 text-slate-300" />
+                    </button>
+                  ))}
                 </div>
               )}
             </div>
           </div>
-          
-          <button 
+
+          <button
             onClick={onClose}
             className="absolute right-6 bottom-6 z-[1001] rounded-full bg-white p-3 shadow-xl hover:bg-slate-50 transition-all active:scale-95"
           >
@@ -222,47 +222,47 @@ export function LocationModal({ isOpen, onClose }: LocationModalProps) {
 
         {/* Address Footer Section */}
         <div className="flex-1 bg-white p-8 flex flex-col justify-between">
-           <div className="overflow-hidden">
-              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2">
-                <Check className="h-4 w-4 text-green-500" /> Delivery Address
-              </h3>
-              
-              <div className="flex items-start gap-5">
-                 <div className="mt-1 rounded-2xl bg-brand/5 p-4 border border-brand/10">
-                    <MapPin className="h-7 w-7 text-brand" />
-                 </div>
-                 <div className="overflow-hidden">
-                    <p className="text-xl font-black leading-tight text-slate-900 mb-2 truncate">
-                       {selectedAddress.split(',')[0]}
-                    </p>
-                    <p className="text-[15px] font-bold leading-relaxed text-slate-500 line-clamp-3">
-                       {selectedAddress}
-                    </p>
-                 </div>
+          <div className="overflow-hidden">
+            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2">
+              <Check className="h-4 w-4 text-green-500" /> Delivery Address
+            </h3>
+
+            <div className="flex items-start gap-5">
+              <div className="mt-1 rounded-2xl bg-brand/5 p-4 border border-brand/10">
+                <MapPin className="h-7 w-7 text-brand" />
               </div>
+              <div className="overflow-hidden">
+                <p className="text-xl font-black leading-tight text-slate-900 mb-2 truncate">
+                  {selectedAddress.split(',')[0]}
+                </p>
+                <p className="text-[15px] font-bold leading-relaxed text-slate-500 line-clamp-3">
+                  {selectedAddress}
+                </p>
+              </div>
+            </div>
 
-              {selectedPin && !selectedPin.startsWith("517") && (
-                 <div className="mt-6 rounded-2xl bg-destructive/5 p-4 flex gap-3 text-destructive border border-destructive/10 animate-in shake-in-1">
-                    <X className="h-5 w-5 flex-shrink-0" />
-                    <p className="text-sm font-bold">Sorry, we don't deliver to {selectedPin} yet. We currently serve Chittoor and Tirupati (517xxx).</p>
-                 </div>
-              )}
-           </div>
+            {selectedPin && !selectedPin.startsWith("517") && (
+              <div className="mt-6 rounded-2xl bg-destructive/5 p-4 flex gap-3 text-destructive border border-destructive/10 animate-in shake-in-1">
+                <X className="h-5 w-5 flex-shrink-0" />
+                <p className="text-sm font-bold">Sorry, we don't deliver to {selectedPin} yet. We currently serve Chittoor and Tirupati (517xxx).</p>
+              </div>
+            )}
+          </div>
 
-           <div className="mt-8 flex gap-4">
-              <button 
-                onClick={onClose}
-                className="flex-1 rounded-2xl border-2 border-slate-100 py-5 text-sm font-black tracking-widest text-slate-600 transition hover:bg-slate-50 uppercase"
-              >
-                Back
-              </button>
-              <button 
-                onClick={handleConfirm}
-                className="flex-[2] rounded-2xl bg-brand py-5 text-sm font-black tracking-widest text-brand-foreground shadow-2xl shadow-brand/30 transition hover:opacity-95 active:scale-[0.98] uppercase"
-              >
-                Confirm Location
-              </button>
-           </div>
+          <div className="mt-8 flex gap-4">
+            <button
+              onClick={onClose}
+              className="flex-1 rounded-2xl border-2 border-slate-100 py-5 text-sm font-black tracking-widest text-slate-600 transition hover:bg-slate-50 uppercase"
+            >
+              Back
+            </button>
+            <button
+              onClick={handleConfirm}
+              className="flex-[2] rounded-2xl bg-brand py-5 text-sm font-black tracking-widest text-brand-foreground shadow-2xl shadow-brand/30 transition hover:bg-primary active:scale-[0.98] uppercase"
+            >
+              Confirm Location
+            </button>
+          </div>
         </div>
       </div>
     </div>

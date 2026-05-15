@@ -72,7 +72,7 @@ order_store = {
 CATEGORIES = ["All", "Store special", "By Product", "Cut Pieces", "Value Ads", "Whole Bird"]
 
 PRODUCTS = [
-    { "id": "1", "name": "Biriyani cut without skin", "price": 300, "unit": "kg", "category": "Cut Pieces", "image": "https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=600&q=80" },
+    { "id": "1", "name": "Biriyani cut without skin", "price": 299, "unit": "kg", "category": "Cut Pieces", "image": "../public/biriyani-cut_withoutSkin.jpg" },
     { "id": "2", "name": "Biriyani cut with skin", "price": 270, "unit": "kg", "category": "Cut Pieces", "image": "https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=600&q=80" },
     { "id": "3", "name": "Breast Bone Less BBL", "price": 380, "unit": "kg", "category": "By Product", "image": "https://images.unsplash.com/photo-1602470521006-bbf6e1d6cca8?w=600&q=80" },
     { "id": "4", "name": "Curry cut without skin", "price": 300, "unit": "kg", "category": "Cut Pieces", "image": "https://images.unsplash.com/photo-1606728035253-49e8a23146de?w=600&q=80" },

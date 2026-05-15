@@ -38,7 +38,7 @@ function Orders() {
             </p>
             <Link
               to="/"
-              className="mt-10 rounded-xl bg-brand px-12 py-4 text-sm font-black tracking-widest text-brand-foreground shadow-xl shadow-brand/20 transition hover:opacity-90 active:scale-95 uppercase"
+              className="mt-10 rounded-xl bg-brand px-12 py-4 text-sm font-black tracking-widest text-brand-foreground shadow-xl shadow-brand/20 transition hover:bg-primary active:scale-95 uppercase"
             >
               Continue Shopping
             </Link>
